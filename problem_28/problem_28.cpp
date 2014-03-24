@@ -85,16 +85,51 @@ generate_spiral_matrix(int edge_size)
 		matrix[x][y] = n++;
 		right_up[0] = x;
 		right_up[1] = y;
-
-		show_matrix(5);
 	}
 
 	return 0;
 }
 
+unsigned long
+calculate_diagonals(int edge_size)
+{
+	int x, y, core = edge_size / 2;
+	unsigned long sum_diagonals = matrix[core][core];
+
+	// Left up diagonal
+	for (x = 0, y = 0; x < core && y < core; ++x, ++y)
+	{
+		sum_diagonals += matrix[x][y];
+	}
+
+	// Right up diagonal
+	for (x = 0, y = core - 1; x < core && y > core; ++x, --y)
+	{
+		sum_diagonals += matrix[x][y];
+	}
+
+	// Left down diagonal
+	for (x = core - 1, y = 0; x > core && y < core; --x, ++y)
+	{
+		sum_diagonals += matrix[x][y];
+	}
+
+	// Right down diagonal
+	for (x = core - 1, y = core - 1; x > core && y > core; --x, --y)
+	{
+		sum_diagonals += matrix[x][y];
+	}
+
+	return sum_diagonals;
+}
+
 int main()
 {
-	generate_spiral_matrix(5);
-	show_matrix(5);
+	int edge_size = 1001;
+
+	generate_spiral_matrix(edge_size);
+//	show_matrix(edge_size);
+	cout << calculate_diagonals(edge_size) << endl;
+	
 	return 0;
 }
