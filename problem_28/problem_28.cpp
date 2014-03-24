@@ -14,7 +14,7 @@ show_matrix(int edge_size)
 	{
 		for (int y = 0; y < edge_size; ++y)
 		{
-			cout << matrix[x][y] << " ";
+			cout << matrix[x][y] << "\t";
 		}
 
 		cout << endl;
@@ -37,13 +37,13 @@ generate_spiral_matrix(int edge_size)
 	// Mark core
 	matrix[x][y] = n++;
 
-	// Step right for the first square
-	matrix[x][++y] = n++;
-
 	while (n <= max)
 	{
+		// Step right for the next square
+		matrix[x][++y] = n++;
+
 		// Step down along the right edge
-		for (; x <= right_down[0]; ++x)
+		for (++x; x <= right_down[0]; ++x)
 		{
 			matrix[x][y] = n++;
 		}
@@ -54,7 +54,7 @@ generate_spiral_matrix(int edge_size)
 		right_down[1] = y;
 
 		// Step left along the bottom edge
-		for (; y >= left_down[1]; --y)
+		for (--y; y >= left_down[1]; --y)
 		{
 			matrix[x][y] = n++;
 		}
@@ -65,7 +65,7 @@ generate_spiral_matrix(int edge_size)
 		left_down[1] = y;
 
 		// Step up along the left edge
-		for (; x >= left_up[0]; --x)
+		for (--x; x >= left_up[0]; --x)
 		{
 			matrix[x][y] = n++;
 		}
@@ -76,7 +76,7 @@ generate_spiral_matrix(int edge_size)
 		left_up[1] = y;
 
 		// Step right along the right edge
-		for (; y >= right_up[1]; ++y)
+		for (++y; y <= right_up[1]; ++y)
 		{
 			matrix[x][y] = n++;
 		}
@@ -103,19 +103,19 @@ calculate_diagonals(int edge_size)
 	}
 
 	// Right up diagonal
-	for (x = 0, y = core - 1; x < core && y > core; ++x, --y)
+	for (x = 0, y = edge_size - 1; x < core && y > core; ++x, --y)
 	{
 		sum_diagonals += matrix[x][y];
 	}
 
 	// Left down diagonal
-	for (x = core - 1, y = 0; x > core && y < core; --x, ++y)
+	for (x = edge_size - 1, y = 0; x > core && y < core; --x, ++y)
 	{
 		sum_diagonals += matrix[x][y];
 	}
 
 	// Right down diagonal
-	for (x = core - 1, y = core - 1; x > core && y > core; --x, --y)
+	for (x = edge_size - 1, y = edge_size - 1; x > core && y > core; --x, --y)
 	{
 		sum_diagonals += matrix[x][y];
 	}
@@ -128,7 +128,9 @@ int main()
 	int edge_size = 1001;
 
 	generate_spiral_matrix(edge_size);
+
 //	show_matrix(edge_size);
+
 	cout << calculate_diagonals(edge_size) << endl;
 	
 	return 0;
